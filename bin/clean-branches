@@ -1,0 +1,44 @@
+#!/bin/bash
+
+function usage {
+  echo "SYNOPSIS: $0 [options] Clear branches that wer merged remote but still exist local"
+  echo ""
+  echo "  options:"
+  echo "     -r <repofile|repodir>, --repository=<repofile|repodir> :"
+  echo "       A file with all repos relative to script"
+  echo "       defaults to \$DEVTOOLDIR/.reporc"
+
+  exit 1
+}
+
+BASEPATH=$(dirname "$0")
+source "$BASEPATH/.functions"
+
+for REPO in "${REPOS[@]}"
+do
+  (
+    [[ -z "${REPO// /}" ]] && continue
+    
+    REPODIR=$(expand_path "$REPO")
+    [[ ! -d "$REPODIR" || ! -d "$REPODIR/.git" ]] && >&2 echo "$REPODIR is not a valid git repository" && continue
+
+    cd "$REPODIR" 
+    BASENAME=$(basename $(pwd))
+    info "Cleaning local $BASENAME branches..."
+    echo "Fetching all remotes"
+    git fetch  > /dev/null && git remote prune origin > /dev/null
+    
+    while read -r LOCAL
+    do
+      echo "Analyzing ${LOCAL//* /}..."
+      if [[ -z $(git branch -r | grep "${LOCAL//* /}") ]]; then
+        if [[ -n $(echo "$LOCAL" | grep "^\* ") ]]; then
+          warn " Cannot delete the branch '${LOCAL//* /}' which you are currently on." 
+        else
+          git branch -d "$LOCAL"
+        fi
+      fi
+    done < <(git branch);
+    cd "$CURR_DIR"
+  )
+done

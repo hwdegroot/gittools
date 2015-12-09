@@ -1,0 +1,92 @@
+#!/bin/bash
+
+function parse_args {
+  ARGS=()
+  while [ $# -gt 0 ]; do
+    OPTARG="$2"
+    OPTION="$1"
+    DO_SHIFT=1
+
+    IFS='=' read -ra OPT <<< "$OPTION"
+    
+    if [[ "${#OPT[*]}" == "2" ]]; then
+      DO_SHIFT=0
+      OPTARG="${OPT[1],,}"
+      OPTION="${OPT[0]}"
+    fi
+      case "$OPTION" in
+      -r|--repository)
+        REPORC=$OPTARG
+        [[ "$DO_SHIFT" = "1" ]] && shift
+        ;;
+      -b|--branch)
+        BRANCH=$OPTARG
+        [[ "$DO_SHIFT" = "1" ]] && shift
+        ;;
+      -h|--help)
+          usage
+        ;;
+      *)
+        ARGS+=($OPTION)
+        ;;
+    esac
+    shift
+  done
+}
+
+function set_defaults {
+  parse_args $*
+
+  REPORC=${REPORC:-"$GITTOOLS/.reporc"}
+  CURR_DIR=$(pwd)
+  BASEDIR=$CURR_DIR
+  
+  if [[ -f "$REPORC" ]]; then 
+    BASEDIR=$(dirname "$REPORC")
+    # readfile
+    REPOS=()
+    while read line
+    do
+      [[ -n ${line// /} ]] && REPOS+=($(cd $BASEDIR && cd $line && pwd))
+    done < "$REPORC"
+    return
+  fi
+
+  [[ ! -d  "$REPORC" ]] && >&2 echo "Unable to locate repository file" && exit 1
+  
+  REPO_PATH=$(expand_path "$REPORC")
+  if [[ -d "$REPO_PATH" ]] && [[ -d "$REPO_PATH/.git" ]]; then
+    REPOS=("$REPORC")
+    BASEDIR=$CURR_DIR
+    return
+  fi
+  >&2 echo "Unable to locate repository file" && exit 1 
+}
+
+function expand_path {
+    [[ -z "${1// /}" ]] || [[ ! -d "$1" ]] && >&2 echo "Unable to locate repository file $1" && return
+
+    echo $(cd "$1" && pwd)
+}
+
+function error {
+  TIMESTAMP=$(date +%H:%M)
+  echo -e "\e[01;31m[ERROR @ $TIMESTAMP] $1\e[0m"
+}
+
+function info {
+  TIMESTAMP=$(date +%H:%M)
+  echo -e "\e[01;32m[INFO @ $TIMESTAMP] $1\e[0m"
+}
+
+function success {
+  TIMESTAMP=$(date +%H:%M)
+  echo -e "\e[01;32m[SUCCESS @ $TIMESTAMP] $1\e[0m"
+}
+
+function warn {
+  TIMESTAMP=$(date +%H:%M)
+  echo -e "\e[01;33m[WARNING @ $TIMESTAMP] $1\e[0m"
+}
+
+set_defaults $*

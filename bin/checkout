@@ -1,0 +1,64 @@
+#!/bin/bash
+
+function usage {
+  echo "SYNOPSIS: $0 branch [options] Checkout a branch cross repo"
+  echo ""
+  echo "  options:"
+  echo "     -r <repofile|repodir>, --repository=<repofile|repodir> :"
+  echo "       A file with all repos relative to script"
+  echo "       defaults to \$DEVTOOLDIR/.reporc"
+  echo "     -b branchname, --branch=branchname:"
+  echo "       Branch to revert to. defaults to master"
+  echo "     --fetch:"
+  echo "       fetch repo first"
+  echo "     --pull:"
+  echo "       pull repo afterwards, if possible"
+  exit 1
+}
+
+BASEPATH=$(dirname "$0")
+source "$BASEPATH/.functions"
+
+[[ -z "$BRANCH" ]] && [[ ${#ARGS[@]} -gt 0 ]] && BRANCH=${ARGS[0]} && ARGS=${ARGS[@]:1}
+
+if [[ -z "$BRANCH" ]]; then
+  echo "Enter a branch, you moron! Do you think I can read your mind?!"
+  exit 1
+fi
+
+if [[ " ${ARGS[@]} " =~ " --fetch " ]]; then
+  DO_FETCH=1
+  ARGS=(${ARGS[@]/"--fetch"})
+fi
+
+if [[ " ${ARGS[@]} " =~ " --pull " ]]; then
+  DO_PULL=1
+  ARGS=(${ARGS[@]/"--pull"})
+fi
+
+for REPO in "${REPOS[@]}"
+do
+  (
+    [[ -z "${REPO// /}" ]] && continue
+    
+    REPODIR=$(expand_path "$REPO")
+    [[ ! -d "$REPODIR" || ! -d "$REPODIR/.git" ]] && >&2 echo "$REPODIR is not a valid git repository" && continue
+
+    cd "$REPODIR"
+    BASENAME=$(basename $(pwd))
+    
+    [[ "$DO_FETCH" -eq "1" ]] && git fetch
+
+    if [[ ! -z "$(git branch -r | grep "$BRANCH")" ]]; then 
+      info "Checking out '$BRANCH' of $BASENAME..."
+      git checkout $BRANCH ${ARGS[@]}
+    else
+      warn "'$BRANCH' not a valid refspec in $BASENAME, checking out master..."
+      git checkout master ${ARGS[@]}
+    fi
+
+    [[ "$DO_PULL" -eq "1" ]] && git pull
+
+    cd "$CURR_DIR"
+  )
+done

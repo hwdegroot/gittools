@@ -1,0 +1,10 @@
+# git aliases
+[[ -f "$GITTOOLS/bin/checkout" ]] && alias gcheckout="$GITTOOLS/bin/checkout"
+[[ -f "$GITTOOLS/bin/clean-branches" ]] && alias gclean-branches="$GITTOOLS/bin/clean-branches"
+[[ -f "$GITTOOLS/bin/fetch" ]] && alias gfetch="$GITTOOLS/bin/fetch"
+[[ -f "$GITTOOLS/bin/prune" ]] && alias gprune="$GITTOOLS/bin/prune"
+[[ -f "$GITTOOLS/bin/pull" ]] && alias gpull="$GITTOOLS/bin/pull"
+[[ -f "$GITTOOLS/bin/revert" ]] && alias grevert="$GITTOOLS/bin/revert"
+[[ -f "$GITTOOLS/bin/status" ]] && alias gstatus="$GITTOOLS/bin/status"
+[[ -f "$GITTOOLS/bin/reset" ]] && alias greset="$GITTOOLS/bin/reset"
+[[ -f "$GITTOOLS/bin/diff" ]] && alias gdiff="$GITTOOLS/bin/diff"
