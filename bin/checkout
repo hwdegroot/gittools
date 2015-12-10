@@ -9,10 +9,10 @@ function usage {
   echo "       defaults to \$DEVTOOLDIR/.reporc"
   echo "     -b branchname, --branch=branchname:"
   echo "       Branch to revert to. defaults to master"
-  echo "     --fetch:"
-  echo "       fetch repo first"
-  echo "     --pull:"
-  echo "       pull repo afterwards, if possible"
+  echo "     --pre-fetch:"
+  echo "       fetch repo before checkout"
+  echo "     --post-pull:"
+  echo "       pull repo afterwards, if possible (no staged changes)"
   exit 1
 }
 
@@ -26,12 +26,12 @@ if [[ -z "$BRANCH" ]]; then
   exit 1
 fi
 
-if [[ " ${ARGS[@]} " =~ " --fetch " ]]; then
+if [[ " ${ARGS[@]} " =~ " --pre-fetch " ]]; then
   DO_FETCH=1
   ARGS=(${ARGS[@]/"--fetch"})
 fi
 
-if [[ " ${ARGS[@]} " =~ " --pull " ]]; then
+if [[ " ${ARGS[@]} " =~ " --post-pull " ]]; then
   DO_PULL=1
   ARGS=(${ARGS[@]/"--pull"})
 fi
