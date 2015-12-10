@@ -1,4 +1,14 @@
+## Scope
+
+These scripts can be used to run git commands over multiple repo's. When you have cross repo branches and you want to check out branches simultaneous.
+
+## Usage
+
+Either have a `.reporc` in the root folder of the gittools where git repo directories are listed (see the `.reporc.example`) or run commands with `--repository=<file|relative/path/to/repodir>`.
+
 ## Install
+
+    $ git clone git@github.com:hwdegroot/gittools.git
 
 Add the following part to your `.bashrc` or `.bash_profile`
 
