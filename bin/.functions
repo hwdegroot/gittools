@@ -69,6 +69,16 @@ function expand_path {
     echo $(cd "$1" && pwd)
 }
 
+function get_additional_arg {
+  ARG="$1"
+  local RESULT=0
+  if [[ " ${ARGS[@]} " =~ " $ARG " ]]; then
+    ARGS=(${ARGS[@]/"$ARG"})
+    RESULT=1
+  fi
+  eval "$2=$RESULT"
+}
+
 function error {
   TIMESTAMP=$(date +%H:%M)
   echo -e "\e[01;31m[ERROR @ $TIMESTAMP] $1\e[0m"
@@ -88,5 +98,6 @@ function warn {
   TIMESTAMP=$(date +%H:%M)
   echo -e "\e[01;33m[WARNING @ $TIMESTAMP] $1\e[0m"
 }
+
 
 set_defaults $*

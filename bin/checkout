@@ -19,21 +19,14 @@ function usage {
 BASEPATH=$(dirname "$0")
 source "$BASEPATH/.functions"
 
-[[ -z "$BRANCH" ]] && [[ ${#ARGS[@]} -gt 0 ]] && BRANCH=${ARGS[0]} && ARGS=${ARGS[@]:1}
+get_additional_arg "--pre-fetch" "DO_FETCH"
+get_additional_arg "--post-pull" "DO_PULL"
+
+[[ -z "$BRANCH" ]] && [[ ${#ARGS[@]} -gt 0 ]] && BRANCH=${ARGS[0]} && ARGS=(${ARGS[@]:1})
 
 if [[ -z "$BRANCH" ]]; then
   echo "Enter a branch, you moron! Do you think I can read your mind?!"
   exit 1
-fi
-
-if [[ " ${ARGS[@]} " =~ " --pre-fetch " ]]; then
-  DO_FETCH=1
-  ARGS=(${ARGS[@]/"--fetch"})
-fi
-
-if [[ " ${ARGS[@]} " =~ " --post-pull " ]]; then
-  DO_PULL=1
-  ARGS=(${ARGS[@]/"--pull"})
 fi
 
 for REPO in "${REPOS[@]}"
