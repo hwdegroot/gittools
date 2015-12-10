@@ -25,7 +25,7 @@ do
     cd "$REPODIR"
     BASENAME=$(basename $(pwd))
     info "Fetching $BASENAME..."
-    git reset $* && git checkout -- * && git status
+    git reset ${ARGS[@]} && git checkout -- * && git status
     cd "$CURR_DIR"
   )
 done

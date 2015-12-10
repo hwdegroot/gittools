@@ -23,7 +23,7 @@ do
     cd "$REPODIR"
     BASENAME=$(basename $(pwd))
     echo "Pulling $BASENAME..."
-    git pull
+    git pull ${ARGS[@]}
     cd "$CURR_DIR"
   )
 done

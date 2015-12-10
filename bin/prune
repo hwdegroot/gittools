@@ -25,7 +25,7 @@ do
     cd "$REPODIR" 
     BASENAME=$(basename $(pwd))
     echo "Updating $BASENAME..."
-    git remote prune origin
+    git remote prune origin ${ARGS[@]}
     cd "$CURR_DIR"
   )
 done

@@ -25,7 +25,7 @@ do
     cd "$REPODIR"
     BASENAME=$(basename $(pwd))
     info "Getting status $BASENAME..."
-    git status
+    git status ${ARGS[@]}
     cd "$CURR_DIR"
   )
 done
