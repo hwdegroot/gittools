@@ -17,10 +17,21 @@ Add the following part to your `.bashrc` or `.bash_profile`
         source $GITTOOLS/.gittoolsrc
     fi
 
+Change the `<gittoolslocation>` with the location where you installed the tools.
+
 ## Autocompletion
 
 Currently available for (a subset of)
+  * `gprune`
+  * `gfetch`
+  * `gclean-branches`
   * `gcheckout`
+  * `gdiff`
+  * `gpull`
+  * `greset`
+  * `grevert`
+  * `gstatus`
+  * `ginfo`
 
 To have autocompletion
 
@@ -38,15 +49,16 @@ The tools will allow you to define a file with locations of checked out git repo
 
 The tools will expose the following aliases: 
 
-    * `gprune`
-    * `gfetch`
-    * `gclean-branches`
-    * `gcheckout`
-    * `gdiff`
-    * `gpull`
-    * `greset`
-    * `grevert`
-    * `gstatus`
+  * `gprune`
+  * `gfetch`
+  * `gclean-branches`
+  * `gcheckout`
+  * `gdiff`
+  * `gpull`
+  * `greset`
+  * `grevert`
+  * `gstatus`
+  * `ginfo`
 
 type `command --help` to see for more help.
 
