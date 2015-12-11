@@ -12,9 +12,14 @@ _gprune()
     fi
 
     if [[ ${prev} == "--repository"  ]]; then
-      COMPREPLY=( $(compgen -W "$(ls "$(pwd)")" -- ${cur}) )
-      return 0
-    fi    
+        k=0
+        i="$(pwd)" # the directory from where to start
+        for j in $( compgen -f "$i/$cur" ); do # loop trough the possible completions
+            [ -d "$j" ] && j="${j}/" || j="${j}" # if its a dir add a shlash, else a space
+            COMPREPLY[k++]=${j#$i/} # remove the directory prefix from the array
+        done
+        return 0
+    fi
 }
 
 complete -F _gprune gprune
