@@ -8,3 +8,4 @@
 [[ -f "$GITTOOLS/bin/status" ]] && alias gstatus="$GITTOOLS/bin/status"
 [[ -f "$GITTOOLS/bin/reset" ]] && alias greset="$GITTOOLS/bin/reset"
 [[ -f "$GITTOOLS/bin/diff" ]] && alias gdiff="$GITTOOLS/bin/diff"
+[[ -f "$GITTOOLS/bin/info" ]] && alias ginfo="$GITTOOLS/bin/info"
