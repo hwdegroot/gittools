@@ -17,20 +17,35 @@ Add the following part to your `.bashrc` or `.bash_profile`
         source $GITTOOLS/.gittoolsrc
     fi
 
+## Autocompletion
+
+Currently available for (a subset of)
+  * `gcheckout`
+
+To have autocompletion
+
+    $ [sudo] cp <gittools dir>/autocompletion/* /etc/bash_completion.d/
+
+And make sure autocompletion is enabled in `~/.bashrc`. Look for the lines:
+
+    if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
+        . /etc/bash_completion
+    fi
+
 ## Usage
 
 The tools will allow you to define a file with locations of checked out git repo's. The tools will default look to `<gittoolslocation>/.reporc`
 
 The tools will expose the following aliases: 
 
-    * gprune
-    * gfetch
-    * gclean-branches
-    * gcheckout
-    * gdiff
-    * gpull
-    * greset
-    * grevert
-    * gstatus
+    * `gprune`
+    * `gfetch`
+    * `gclean-branches`
+    * `gcheckout`
+    * `gdiff`
+    * `gpull`
+    * `greset`
+    * `grevert`
+    * `gstatus`
 
 type `command --help` to see for more help.

@@ -1,0 +1,67 @@
+_gcheckout() 
+{
+    local cur prev opts
+    COMPREPLY=()
+    cur="${COMP_WORDS[COMP_CWORD]}"
+    prev="${COMP_WORDS[COMP_CWORD-1]}"
+    opts="--help --repository --branch"
+
+    if [[ ${cur} == -* ]] ; then
+        COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+        return 0
+    fi
+
+    if [[ ${prev} == "--repository"  ]]; then
+      COMPREPLY=( $(compgen -W "$(ls "$(pwd)")" -- ${cur}) )
+      return 0
+    fi
+
+    if [[ ! -z "$(echo ${COMP_WORDS[@]} | grep -Po '(?<=repository).*')" ]]; then 
+
+      ARGS=$(echo ${COMP_WORDS[@]} | grep -Po '(?<=repository).*' | sed 's/^[= ]//')
+      if [[ ${#ARGS[@]} -gt 0 && -d "${ARGS[0]}" && "$(cd "${ARGS[0]}" && [[ -d ".git" ]] && echo 1)" == "1" ]]; then 
+        COMPREPLY=( $(compgen -W "$(cd "$(pwd)/${ARGS[0]}" && list_branches)" -- ${cur}) )
+      fi
+
+      if [[ -f "${ARGS[0]}" ]]; then
+        COMPREPLY=( $(compgen -W "$(get_repos $(pwd)/${ARGS[0]})" -- ${cur}) )
+      fi
+
+      return 0
+    fi
+
+    if [[ ${prev} == "gcheckout" ]] || [[ -z "$(echo ${COMP_WORDS[@]} | grep -Po '(?<=repository).*')" && ${prev} == "--branch" ]]; then
+      COMPREPLY=( $(compgen -W "$(get_repos)" -- ${cur}) )
+      return 0
+    fi
+    
+}
+
+function list_branches {
+  git branch --list --all --no-column | sed -e 's/[\* ]//g;s/remotes\/origin\///g;s/HEAD->//g' | sort | uniq | xargs echo
+}
+
+function get_repos {
+  REPOFILE=$GITTOOLS/.reporc
+
+  if [[ -f "$1" ]]; then
+    REPOFILE="$1"
+  fi
+
+  BASEDIR=$(cd $(dirname "$REPOFILE") && pwd)
+  AUTOCOMPLETE=()
+  if [[ -f  "$REPOFILE" ]]; then
+    while IFS='' read -r repo || [[ -n "$repo" ]]; do
+      REPODIR="$(cd "$BASEDIR" && cd $repo && pwd)"
+      if [[ -d "$REPODIR/.git" ]]; then
+        BRANCHES=( $(cd "$REPODIR" && list_branches) )
+        AUTOCOMPLETE=( $(echo ${AUTOCOMPLETE[@]}) $(echo ${BRANCHES[@]}) )
+      fi
+    done < "$REPOFILE"
+
+    echo $( echo ${AUTOCOMPLETE[@]} | sort | uniq )
+  fi
+  return 0
+} 
+
+complete -F _gcheckout gcheckout
