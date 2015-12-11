@@ -11,10 +11,10 @@ _gcheckout()
         return 0
     fi
 
-    if [[ ${prev} == "--repository"  ]]; then
+    if [[ ${prev} == "--repository" || ${prev} == "-r" || ${cur} == "--repository=*" ]]; then
         k=0
         i="$(pwd)" # the directory from where to start
-        for j in $( compgen -f "$i/$cur" ); do # loop trough the possible completions
+        for j in $( compgen -f "$i/${cur//--repository=/}" ); do # loop trough the possible completions
             [ -d "$j" ] && j="${j}/" || j="${j}" # if its a dir add a shlash, else a space
             COMPREPLY[k++]=${j#$i/} # remove the directory prefix from the array
         done
@@ -35,8 +35,8 @@ _gcheckout()
       return 0
     fi
 
-    if [[ ${prev} == "gcheckout" ]] || [[ -z "$(echo ${COMP_WORDS[@]} | grep -Po '(?<=repository).*')" && ${prev} == "--branch" ]]; then
-      COMPREPLY=( $(compgen -W "$(get_repos)" -- ${cur}) )
+    if [[ ${prev} == "gcheckout" ]] || [[ -z "$(echo ${COMP_WORDS[@]} | grep -Po '(?<=repository).*')" ]] && [[ ${prev} == "--branch" || ${cur} == "--branch=*" ]]; then
+      COMPREPLY=( $(compgen -W "$(get_repos)" -- ${cur//"--branch="}) )
       return 0
     fi
     
@@ -53,7 +53,7 @@ function get_repos {
     REPOFILE="$1"
   fi
 
-  BASEDIR=$(cd $(dirname "$REPOFILE") && pwd)
+  BASEDIR=$(cd $(dirname "$REPOFILE") && pwd        )
   AUTOCOMPLETE=()
   if [[ -f  "$REPOFILE" ]]; then
     while IFS='' read -r repo || [[ -n "$repo" ]]; do
