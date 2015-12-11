@@ -49,3 +49,5 @@ The tools will expose the following aliases:
     * `gstatus`
 
 type `command --help` to see for more help.
+
+__NOTE__: if you are using `.reporc` files, make sure the repository directories are relative to the file, or just abs paths.
