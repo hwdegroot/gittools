@@ -4,10 +4,18 @@ _gcheckout()
     COMPREPLY=()
     cur="${COMP_WORDS[COMP_CWORD]}"
     prev="${COMP_WORDS[COMP_CWORD-1]}"
-    opts="--help --repository --branch --post-pull --pre-fetch"
+    opts=("--help" "--repository" "--branch" "--pre-fetch" "--post-pull")
 
     if [[ ${cur} == -* ]] ; then
-        COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+        OPTIONS=()
+        for OPT in ${opts[@]}; do
+          [[ "$OPT" == "--help" && ${#COMP_WORDS[@]} -gt 2 ]] && continue 
+
+          if [[ " ${COMP_WORDS[@]} " != *" $OPT "* ]]; then
+            OPTIONS+=("$OPT")
+          fi
+        done
+        COMPREPLY=( $(compgen -W "$(echo ${OPTIONS[@]})" -- ${cur}) )
         return 0
     fi
 
@@ -30,11 +38,11 @@ _gcheckout()
       return 0
     fi
 
-    if [[ ${prev} == "gcheckout" ]] || [[ -z "$(echo ${COMP_WORDS[@]} | grep -Po '(?<=repository).*')" ]] && [[ ${prev} == "--branch" || ${cur} == "--branch=*" ]]; then
+    if [[ ${prev} == "gcheckout" ]] || [[ " ${COMP_WORDS[@]} " != "--repository"* ]] && [[ ${prev} == "--branch" || ${cur} == "--branch=*" ]]; then
       COMPREPLY=( $(compgen -W "$(get_repos)" -- ${cur//"--branch="}) )
       return 0
     fi
-    
+
 }
 
 _gdefault() {
@@ -42,10 +50,18 @@ _gdefault() {
     COMPREPLY=()
     cur="${COMP_WORDS[COMP_CWORD]}"
     prev="${COMP_WORDS[COMP_CWORD-1]}"
-    opts="--help --repository --branch"
+    opts=("--help" "--repository" "--branch")
 
     if [[ ${cur} == -* ]] ; then
-        COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+        OPTIONS=()
+        for OPT in ${opts[@]}; do
+          [[ "$OPT" == "--help" && ${#COMP_WORDS[@]} -gt 2 ]] && continue 
+
+          if [[ " ${COMP_WORDS[@]} " != *" $OPT "* ]]; then
+            OPTIONS+=("$OPT")
+          fi
+        done
+        COMPREPLY=( $(compgen -W "$(echo ${OPTIONS[@]})" -- ${cur}) )
         return 0
     fi
 
