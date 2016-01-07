@@ -1,3 +1,21 @@
+__DEFAULT() {
+  local cur prev opts
+  COMPREPLY=()
+  cur="${COMP_WORDS[COMP_CWORD]}"
+  prev="${COMP_WORDS[COMP_CWORD-1]}"
+  opts=${1:-"--help --repository --branch"}
+
+  if [[ ${cur} == -* ]] ; then
+      COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+      return 0
+  fi
+
+  if [[ ${prev} == "--repository" || ${prev} == "-r" || ${cur} == "--repository=*" ]]; then
+      list_directories    
+      return 0
+  fi  
+}
+
 _gcheckout() 
 {
     local cur prev opts
@@ -42,33 +60,15 @@ _gcheckout()
       COMPREPLY=( $(compgen -W "$(get_repos)" -- ${cur//"--branch="}) )
       return 0
     fi
-
+    
 }
 
 _gdefault() {
-    local cur prev opts
-    COMPREPLY=()
-    cur="${COMP_WORDS[COMP_CWORD]}"
-    prev="${COMP_WORDS[COMP_CWORD-1]}"
-    opts=("--help" "--repository" "--branch")
+    __DEFAULT "--help --repository --branch"
+}
 
-    if [[ ${cur} == -* ]] ; then
-        OPTIONS=()
-        for OPT in ${opts[@]}; do
-          [[ "$OPT" == "--help" && ${#COMP_WORDS[@]} -gt 2 ]] && continue 
-
-          if [[ " ${COMP_WORDS[@]} " != *" $OPT "* ]]; then
-            OPTIONS+=("$OPT")
-          fi
-        done
-        COMPREPLY=( $(compgen -W "$(echo ${OPTIONS[@]})" -- ${cur}) )
-        return 0
-    fi
-
-    if [[ ${prev} == "--repository" || ${prev} == "-r" || ${cur} == "--repository=*" ]]; then
-        list_directories    
-        return 0
-    fi  
+_greset() {
+    __DEFAULT "--help --repository --branch --stash"
 }
 
 function list_directories {
@@ -113,6 +113,6 @@ complete -o nospace -F _gdefault gfetch
 complete -o nospace -F _gdefault ginfo
 complete -o nospace -F _gdefault gprune
 complete -o nospace -F _gdefault gpull
-complete -o nospace -F _gdefault greset
-complete -o nospace -F _gdefault grevert
+complete -o nospace -F _greset grevert
+complete -o nospace -F _greset greset
 complete -o nospace -F _gdefault gstatus
