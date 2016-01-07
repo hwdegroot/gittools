@@ -56,11 +56,10 @@ _gcheckout()
       return 0
     fi
 
-    if [[ ${prev} == "gcheckout" ]] || [[ " ${COMP_WORDS[@]} " != "--repository"* ]] && [[ ${prev} == "--branch" || ${cur} == "--branch=*" ]]; then
+    if [[ ${prev} == "gcheckout" ]] || [[ " ${COMP_WORDS[@]} " != " --repository"* && ${prev} == "--branch" || ${cur} == "--branch=*" ]]; then
       COMPREPLY=( $(compgen -W "$(get_repos)" -- ${cur//"--branch="}) )
       return 0
     fi
-    
 }
 
 _gdefault() {
@@ -90,7 +89,7 @@ function get_repos {
     REPOFILE="$1"
   fi
 
-  BASEDIR=$(cd $(dirname "$REPOFILE") && pwd        )
+  BASEDIR=$(cd $(dirname "$REPOFILE") && pwd)
   AUTOCOMPLETE=()
   if [[ -f  "$REPOFILE" ]]; then
     while IFS='' read -r repo || [[ -n "$repo" ]]; do
