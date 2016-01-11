@@ -1,10 +1,12 @@
 #!/bin/bash
 
 function usage {
-  echo "SYNOPSIS: $0 [repofile] pull all repos"
+  echo "SYNOPSIS: $0 [options] Pull all repos"
   echo ""
-  echo " repofile: A file with all repos relative to script"
-  echo "           defaults to .reporc"
+  echo "  options:"
+  echo "     -r <repofile|repodir>, --repository=<repofile|repodir> :"
+  echo "       A file with all repos relative to script"
+  echo "       defaults to \$DEVTOOLDIR/.reporc"
 
   exit 1
 }
