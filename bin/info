@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 function usage {
   echo "SYNOPSIS: $0 [options] Get HEAD info of all repos"
