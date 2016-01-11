@@ -42,20 +42,24 @@ _gcheckout()
         return 0
     fi
 
-    if [[ ! -z "$(echo ${COMP_WORDS[@]} | grep -Po '(?<=repository).*')" ]]; then 
+    if [[ ! -z "$(echo "${COMP_WORDS[@]}" | grep -Po '(?<=repository).*')" ]]; then 
 
-      ARGS=$(echo ${COMP_WORDS[@]} | grep -Po '(?<=repository).*' | sed 's/^[= ]//')
+      ARGS=($(echo "${COMP_WORDS[@]}" | grep -Po '(?<=repository).*'))
+      [[ ${#ARGS[@]} -gt 1 &&  "${ARGS[0]}" == "=" ]] && ARGS=("${ARGS[@]:1:1}")
+
       if [[ ${#ARGS[@]} -gt 0 && -d "${ARGS[0]}" && "$(cd "${ARGS[0]}" && [[ -d ".git" ]] && echo 1)" == "1" ]]; then 
         COMPREPLY=( $(compgen -W "$(cd "$(pwd)/${ARGS[0]}" && list_branches)" -- ${cur}) )
+        return 0
       fi
 
       if [[ -f "${ARGS[0]}" ]]; then
         COMPREPLY=( $(compgen -W "$(get_repos $(pwd)/${ARGS[0]})" -- ${cur}) )
+        return 0
       fi
 
       return 0
     fi
-
+    
     if [[ ${prev} == "gcheckout" ]] || [[ " ${COMP_WORDS[@]} " != " --repository"* && ${prev} == "--branch" || ${cur} == "--branch=*" ]]; then
       COMPREPLY=( $(compgen -W "$(get_repos)" -- ${cur//"--branch="}) )
       return 0
