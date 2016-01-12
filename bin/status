@@ -1,7 +1,7 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 function usage {
-  echo "SYNOPSIS: $0 [options] get status of all repos"
+  echo "SYNOPSIS: $0 [options] Get status of all repos"
   echo ""
   echo "  options:"
   echo "     -r <repofile|repodir>, --repository=<repofile|repodir> :"
