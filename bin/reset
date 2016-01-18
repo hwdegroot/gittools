@@ -14,6 +14,8 @@ function usage {
 BASEPATH=$(dirname "$0")
 source "$BASEPATH/.functions"
 
+[[ ${#ARGS[@]} -eq 0 ]] &&  ARGS=("--hard")
+
 for REPO in "${REPOS[@]}"
 do
   (
@@ -24,8 +26,8 @@ do
 
     cd "$REPODIR"
     BASENAME=$(basename $(pwd))
-    info "Fetching $BASENAME..."
-    git reset ${ARGS[@]} && git checkout -- * && git status
+    info "Resetting $BASENAME..."
+    git reset ${ARGS[@]} 
     cd "$CURR_DIR"
   )
 done
