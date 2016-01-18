@@ -116,6 +116,5 @@ complete -o nospace -F _gdefault gfetch
 complete -o nospace -F _gdefault ginfo
 complete -o nospace -F _gdefault gprune
 complete -o nospace -F _gdefault gpull
-complete -o nospace -F _greset grevert
 complete -o nospace -F _greset greset
 complete -o nospace -F _gdefault gstatus
