@@ -24,7 +24,7 @@ do
 
     cd "$REPODIR"
     BASENAME=$(basename $(pwd))
-    info "Getting diff $BASENAME..."
+    info "[$BASENAME] Getting diffs..."
     git diff ${ARGS[@]}
     cd "$CURR_DIR"
   )

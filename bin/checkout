@@ -43,10 +43,10 @@ do
     [[ "$DO_FETCH" -eq "1" ]] && git fetch
 
     if [[ ! -z "$(git branch -r | grep "$BRANCH")" ]]; then 
-      info "Checking out '$BRANCH' of $BASENAME..."
+      info "[$BASENAME] Checking out '$BRANCH'..."
       git checkout ${ARGS[@]} $BRANCH
     else
-      warn "'$BRANCH' not a valid refspec in $BASENAME, checking out master..."
+      warn "[$BASENAME] Branch '$BRANCH' not found, checking out master..."
       git checkout ${ARGS[@]} master
     fi
 

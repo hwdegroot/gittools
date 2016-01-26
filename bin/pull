@@ -24,7 +24,7 @@ do
 
     cd "$REPODIR"
     BASENAME=$(basename $(pwd))
-    echo "Pulling $BASENAME..."
+    info "[$BASENAME] Pulling..."
     git pull ${ARGS[@]}
     cd "$CURR_DIR"
   )
