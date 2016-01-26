@@ -24,7 +24,7 @@ do
 
     cd "$REPODIR" 
     BASENAME=$(basename $(pwd))
-    info "Cleaning local $BASENAME branches..."
+    info "[$BASENAME] Cleaning local branches..."
     echo "Fetching all remotes"
     git fetch  > /dev/null && git remote prune origin > /dev/null
     
