@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # git aliases
 [[ -f "$GITTOOLS/bin/checkout" ]] && alias gcheckout="$GITTOOLS/bin/checkout"
 [[ -f "$GITTOOLS/bin/clean-branches" ]] && alias gclean-branches="$GITTOOLS/bin/clean-branches"
