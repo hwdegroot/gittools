@@ -26,7 +26,7 @@ do
 
     cd "$REPODIR"
     BASENAME=$(basename $(pwd))
-    info "Resetting $BASENAME..."
+    info "[$BASENAME] Resetting..."
     git reset ${ARGS[@]} 
     cd "$CURR_DIR"
   )

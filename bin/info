@@ -24,7 +24,7 @@ do
 
     cd "$REPODIR"
     BASENAME=$(basename $(pwd))
-    info "Getting imfo $BASENAME..."
+    info "[$BASENAME] Getting info..."
     echo "HEAD currently @ $(git rev-parse --abbrev-ref HEAD ${ARGS[@]})"
     cd "$CURR_DIR"
   )

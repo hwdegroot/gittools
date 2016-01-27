@@ -24,7 +24,7 @@ do
 
     cd "$REPODIR" 
     BASENAME=$(basename $(pwd))
-    echo "Fetching $BASENAME..."
+    info "[$BASENAME] Fetching..."
     git fetch ${ARGS[@]}
     cd "$CURR_DIR"
   )
