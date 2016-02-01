@@ -22,7 +22,7 @@ _gcheckout()
     COMPREPLY=()
     cur="${COMP_WORDS[COMP_CWORD]}"
     prev="${COMP_WORDS[COMP_CWORD-1]}"
-    opts=("--help" "--repository" "--branch" "--pre-fetch" "--post-pull")
+    opts=("--help" "--repository" "--branch" "--pre-fetch" "--post-pull" "--prune-remote")
 
     if [[ ${cur} == -* ]] ; then
         OPTIONS=()

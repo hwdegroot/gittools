@@ -21,6 +21,7 @@ source "$BASEPATH/.functions"
 
 get_additional_arg "--pre-fetch" "DO_FETCH"
 get_additional_arg "--post-pull" "DO_PULL"
+get_additional_arg "--prune-remote" "DO_PRUNE"
 
 [[ -z "$BRANCH" ]] && [[ ${#ARGS[@]} -gt 0 ]] && BRANCH=${ARGS[0]} && ARGS=(${ARGS[@]:1})
 
@@ -52,6 +53,8 @@ do
 
     [[ "$DO_PULL" -eq "1" ]] && git pull
 
+    [[ "$DO_PRUNE" -eq "1" ]] && git remote prune origin
+    
     cd "$CURR_DIR"
   )
 done
