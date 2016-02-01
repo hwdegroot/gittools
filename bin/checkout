@@ -11,8 +11,13 @@ function usage {
   echo "       Branch to revert to. defaults to master"
   echo "     --pre-fetch:"
   echo "       fetch repo before checkout"
+  echo "       Set `\$PRE_FETCH=1` in your .bashrc to always pre-fetch"
   echo "     --post-pull:"
   echo "       pull repo afterwards, if possible (no staged changes)"
+  echo "       Set `\$POST_PULL=1` in your .bashrc to always post-pull"
+  echo "     --prune-remote:"
+  echo "       prune remote origin after checkout"
+  echo "       Set `\$PRUNE_REMOTE=1` in your .bashrc to always prune-remote"
   exit 1
 }
 
@@ -41,7 +46,7 @@ do
     cd "$REPODIR"
     BASENAME=$(basename $(pwd))
     
-    [[ "$DO_FETCH" -eq "1" ]] && git fetch
+    [[ "$DO_FETCH" -eq "1" || "$PRE_FETCH" -eq "1" ]] && git fetch
 
     if [[ ! -z "$(git branch -r | grep "$BRANCH")" ]]; then 
       info "[$BASENAME] Checking out '$BRANCH'..."
@@ -51,9 +56,9 @@ do
       git checkout ${ARGS[@]} master
     fi
 
-    [[ "$DO_PULL" -eq "1" ]] && git pull
+    [[ "$DO_PULL" -eq "1" || "$POST_PULL" -eq "1" ]] && git pull
 
-    [[ "$DO_PRUNE" -eq "1" ]] && git remote prune origin
+    [[ "$DO_PRUNE" -eq "1" || "$PRUNE_REMOTE" -eq "1" ]] && git remote prune origin
     
     cd "$CURR_DIR"
   )
