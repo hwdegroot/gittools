@@ -29,7 +29,6 @@ Currently available for (a subset of)
   * `gdiff`
   * `gpull`
   * `greset`
-  * `grevert`
   * `gstatus`
   * `ginfo`
 
@@ -56,7 +55,6 @@ The tools will expose the following aliases:
   * `gdiff`
   * `gpull`
   * `greset`
-  * `grevert`
   * `gstatus`
   * `ginfo`
 
