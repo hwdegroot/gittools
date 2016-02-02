@@ -33,15 +33,18 @@ do
 
     cd "$REPODIR"
     BASENAME=$(basename $(pwd))
-    info "[$BASENAME] Pulling changes from remote..."
-    git fetch
     if [[ "${DO_REBASE:-"$DO_PRESERVE_MERGE"}" -eq "1" ]]; then
+      info "[$BASENAME] Fetching changes from remote..."
+      git fetch
       ARGV=()
       [[ "$DO_PRESERVE_MERGE" -eq "1" ]] && ARGV+=("--preserve-merges")
       ARGV+=(${ARGS[*]})
+
+      info "[$BASENAME] Rebasing local changes on top..."
       git rebase ${ARGV[@]}
     else
-      git merge ${ARGS[@]}
+      info "[$BASENAME] Pulling changes from remote..."
+      git pull ${ARGS[@]}
     fi
     cd "$CURR_DIR"
   )
