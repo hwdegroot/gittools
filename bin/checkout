@@ -46,7 +46,10 @@ do
     cd "$REPODIR"
     BASENAME=$(basename $(pwd))
     
-    [[ "$DO_FETCH" -eq "1" || "$PRE_FETCH" -eq "1" ]] && git fetch
+    if [[ "${DO_FETCH:-"$PRE_FETCH"}" -eq "1" ]]; then
+      info "[$BASENAME] fetching remote..."
+      git fetch
+    fi
 
     if [[ ! -z "$(git branch -r | grep "$BRANCH")" ]]; then 
       info "[$BASENAME] Checking out '$BRANCH'..."
@@ -56,9 +59,15 @@ do
       git checkout ${ARGS[@]} master
     fi
 
-    [[ "$DO_PULL" -eq "1" || "$POST_PULL" -eq "1" ]] && git pull
+    if [[ "${DO_PULL:-"$POST_PULL"}" -eq "1" ]]; then
+      info "[$BASENAME] pulling remote for changes..."
+      git pull
+    fi
 
-    [[ "$DO_PRUNE" -eq "1" || "$PRUNE_REMOTE" -eq "1" ]] && git remote prune origin
+    if [[ "${DO_PRUNE:-"$PRUNE_REMOTE"}" -eq "1" ]]; then
+      info "[$BASENAME] pruning remote origin..."
+      git remote prune origin
+    fi
     
     cd "$CURR_DIR"
   )
