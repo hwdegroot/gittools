@@ -71,12 +71,13 @@ function expand_path {
 
 function get_additional_arg {
   ARG="$1"
-  local RESULT=0
+  local RESULT
   if [[ " ${ARGS[@]} " =~ " $ARG " ]]; then
     ARGS=(${ARGS[@]/"$ARG"})
     RESULT=1
   fi
-  eval "$2=$RESULT"
+  [[ -n "$2" ]] && eval "$2=$RESULT"
+  return $RESULT
 }
 
 function error {
