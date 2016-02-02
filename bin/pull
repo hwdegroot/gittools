@@ -7,12 +7,21 @@ function usage {
   echo "     -r <repofile|repodir>, --repository=<repofile|repodir> :"
   echo "       A file with all repos relative to script"
   echo "       defaults to \$DEVTOOLDIR/.reporc"
+  echo "     --preserve-merges :"
+  echo "       Do a rebase after pull and preserve merges"
+  echo "       Same as \`git fetch && git rebase --preserve-merges\`"
+  echo "     --rebase :"
+  echo "       Do a rebase after pull"
+  echo "       Same as \`git fetch && git rebase\`"
 
   exit 1
 }
 
 BASEPATH=$(dirname "$0")
 source "$BASEPATH/.functions"
+
+get_additional_arg "--preserve-merges" "DO_PRESERVE_MERGE"
+get_additional_arg "--rebase" "DO_REBASE"
 
 for REPO in "${REPOS[@]}"
 do
@@ -24,8 +33,16 @@ do
 
     cd "$REPODIR"
     BASENAME=$(basename $(pwd))
-    info "[$BASENAME] Pulling..."
-    git pull ${ARGS[@]}
+    info "[$BASENAME] Pulling changes from remote..."
+    git fetch
+    if [[ "${DO_REBASE:-"$DO_PRESERVE_MERGE"}" -eq "1" ]]; then
+      ARGV=()
+      [[ "$DO_PRESERVE_MERGE" -eq "1" ]] && ARGV+=("--preserve-merges")
+      ARGV+=(${ARGS[*]})
+      git rebase ${ARGV[@]}
+    else
+      git merge ${ARGS[@]}
+    fi
     cd "$CURR_DIR"
   )
 done
