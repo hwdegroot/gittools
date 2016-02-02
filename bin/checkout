@@ -11,13 +11,13 @@ function usage {
   echo "       Branch to revert to. defaults to master"
   echo "     --pre-fetch:"
   echo "       fetch repo before checkout"
-  echo "       Set `\$PRE_FETCH=1` in your .bashrc to always pre-fetch"
+  echo "       Set '\$PRE_FETCH=1' in your .bashrc to always pre-fetch"
   echo "     --post-pull:"
   echo "       pull repo afterwards, if possible (no staged changes)"
-  echo "       Set `\$POST_PULL=1` in your .bashrc to always post-pull"
+  echo "       Set '\$POST_PULL=1' in your .bashrc to always post-pull"
   echo "     --prune-remote:"
   echo "       prune remote origin after checkout"
-  echo "       Set `\$PRUNE_REMOTE=1` in your .bashrc to always prune-remote"
+  echo "       Set '\$PRUNE_REMOTE=1' in your .bashrc to always prune-remote"
   exit 1
 }
 
