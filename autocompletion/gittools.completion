@@ -25,21 +25,21 @@ _gcheckout()
     opts=("--help" "--repository" "--branch" "--pre-fetch" "--post-pull" "--prune-remote")
 
     if [[ ${cur} == -* ]] ; then
-        OPTIONS=()
-        for OPT in ${opts[@]}; do
-          [[ "$OPT" == "--help" && ${#COMP_WORDS[@]} -gt 2 ]] && continue 
+      OPTIONS=()
+      for OPT in ${opts[@]}; do
+        [[ "$OPT" == "--help" && ${#COMP_WORDS[@]} -gt 2 ]] && continue 
 
-          if [[ " ${COMP_WORDS[@]} " != *" $OPT "* ]]; then
-            OPTIONS+=("$OPT")
-          fi
-        done
-        COMPREPLY=( $(compgen -W "$(echo ${OPTIONS[@]})" -- ${cur}) )
-        return 0
+        if [[ " ${COMP_WORDS[@]} " != *" $OPT "* ]]; then
+          OPTIONS+=("$OPT")
+        fi
+      done
+      COMPREPLY=( $(compgen -W "$(echo ${OPTIONS[@]})" -- ${cur}) )
+      return 0
     fi
 
     if [[ ${prev} == "--repository" || ${prev} == "-r" || ${cur} == "--repository=*" ]]; then
-        list_directories
-        return 0
+      list_directories
+      return 0
     fi
 
     if [[ ! -z "$(echo "${COMP_WORDS[@]}" | grep -Po '(?<=repository).*')" ]]; then 
