@@ -6,8 +6,16 @@ __DEFAULT() {
   opts=${1:-"--help --repository --branch"}
 
   if [[ ${cur} == -* ]] ; then
-      COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
-      return 0
+    OPTIONS=()
+    for OPT in ${opts[@]}; do
+      [[ "$OPT" == "--help" && ${#COMP_WORDS[@]} -gt 2 ]] && continue 
+
+      if [[ " ${COMP_WORDS[@]} " != *" $OPT "* ]]; then
+        OPTIONS+=("$OPT")
+      fi
+    done
+    COMPREPLY=( $(compgen -W "$(echo ${OPTIONS[@]})" -- ${cur}) )
+    return 0
   fi
 
   if [[ ${prev} == "--repository" || ${prev} == "-r" || ${cur} == "--repository=*" ]]; then
