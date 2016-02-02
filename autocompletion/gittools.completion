@@ -45,14 +45,13 @@ _gcheckout()
       return 0
     fi
 
-    if [[ ${prev} == "--repository" || ${prev} == "-r" || ${cur} == "--repository=*" ]]; then
+    if [[ ${prev} == "--repository" || ${prev} == "-r" || ${cur} == "--repository=*" || ${cur} == "-r=*" ]]; then
       list_directories
       return 0
     fi
+    if [[ ! -z "$(echo "${COMP_WORDS[@]}" | grep -Po '(?<=repository).*')" ]] || [[ ! -z "$(echo "${COMP_WORDS[@]}" | grep -o '\-r=\?')" ]]; then 
 
-    if [[ ! -z "$(echo "${COMP_WORDS[@]}" | grep -Po '(?<=repository).*')" ]]; then 
-
-      ARGS=($(echo "${COMP_WORDS[@]}" | grep -Po '(?<=repository).*'))
+      ARGS=($(echo "${COMP_WORDS[@]}" | grep -Po '(?<=repository).*' || echo "${COMP_WORDS[@]}" | grep -Po '(?<= -r).*'))
       [[ ${#ARGS[@]} -gt 1 &&  "${ARGS[0]}" == "=" ]] && ARGS=("${ARGS[@]:1:1}")
 
       if [[ ${#ARGS[@]} -gt 0 && -d "${ARGS[0]}" && "$(cd "${ARGS[0]}" && [[ -d ".git" ]] && echo 1)" == "1" ]]; then 
