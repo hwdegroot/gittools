@@ -1,6 +1,6 @@
 ## Scope
 
-These scripts can be used to run git commands over multiple repo's. When you have cross repo branches and you want to check out branches simultaneous.
+These scripts can be used to run git commands over multiple repos. When you have cross repo branches and you want to check out branches simultaneous.
 
 ## Usage
 
@@ -44,7 +44,7 @@ And make sure autocompletion is enabled in `~/.bashrc`. Look for the lines:
 
 ## Usage
 
-The tools will allow you to define a file with locations of checked out git repo's. The tools will default look to `<gittoolslocation>/.reporc`
+The tools will allow you to define a file with locations of checked out git repos. The tools will default look to `<gittoolslocation>/.reporc`
 
 The tools will expose the following aliases: 
 
