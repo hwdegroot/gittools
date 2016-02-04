@@ -36,6 +36,16 @@ function parse_args {
 
 function set_defaults {
   parse_args $*
+  set_repos "$REPORC"
+}
+
+function set_repos {
+  local REPORC="$1"
+
+  if [[ -z "$REPORC" && -n "$(get_repo "${ARGS[@]}")" ]]; then
+    REPORC="$(get_repo "${ARGS[@]}")"
+    ARGS=("${ARGS[@]:1}")
+  fi
 
   REPORC=${REPORC:-"$GITTOOLS/.reporc"}
   CURR_DIR=$(pwd)
@@ -63,6 +73,7 @@ function set_defaults {
   >&2 echo "Unable to locate repository file" && exit 1 
 }
 
+
 function expand_path {
     [[ -z "${1// /}" ]] || [[ ! -d "$1" ]] && >&2 echo "Unable to locate repository file $1" && return
 
@@ -78,6 +89,12 @@ function get_additional_arg {
   fi
   [[ -n "$2" ]] && eval "$2=$RESULT"
   return $RESULT
+}
+
+function get_repo {
+  local args=("$@")
+  [[ ${#args[@]} -gt 0 ]] && [[ -d "${args[0]}" || -f "${args[0]}" ]] && echo "${args[0]}" 
+  return
 }
 
 function error {
