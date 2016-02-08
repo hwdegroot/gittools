@@ -60,4 +60,15 @@ The tools will expose the following aliases:
 
 type `command --help` to see for more help.
 
+## Environment variables
+Set the following 
+
+`$PRUNE_REMOTE=1`: Always prune remote origin after a checkout. Same as `gcheckout [...] --prune-remote`
+
+`$PRE_FETCH=1`: Always fetch before checking out. Same as `gcheckout [...] --pre-fetch`
+
+`$POST_PULL=1`: Always pull after checking out. Same as `gcheckout [...] --post-pull`
+
+`$DEFAULT_BRANCH=branch_name`: Checkout this branch if gcheckout is called without a branch (usually this will be `master`)
+
 __NOTE__: if you are using `.reporc` files, make sure the repository directories are relative to the file, or just abs paths.

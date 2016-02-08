@@ -30,6 +30,8 @@ get_additional_arg "--prune-remote" "DO_PRUNE"
 
 [[ -z "$BRANCH" ]] && [[ ${#ARGS[@]} -gt 0 ]] && BRANCH=${ARGS[0]} && ARGS=(${ARGS[@]:1})
 
+BRANCH=${BRANCH:-"$DEFAULT_BRANCH"}
+
 if [[ -z "$BRANCH" ]]; then
   echo "Enter a branch, you moron! Do you think I can read your mind?!"
   exit 1
