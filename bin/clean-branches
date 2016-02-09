@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
 function usage {
-  echo "SYNOPSIS: $0 [options] Clean up local branches that were merged remote"
+  echo "SYNOPSIS: $0 [options]"
+  echo "  Clean up local branches that were merged remote"
   echo ""
   echo "  options:"
   echo "     -r <repofile|repodir>, --repository=<repofile|repodir> :"
@@ -14,6 +15,8 @@ function usage {
 BASEPATH=$(dirname "$0")
 source "$BASEPATH/.functions"
 
+loose_set_repo "${ARGS[@]}"
+
 for REPO in "${REPOS[@]}"
 do
   (
@@ -25,13 +28,19 @@ do
     cd "$REPODIR" 
     BASENAME=$(basename $(pwd))
     info "[$BASENAME] Cleaning local branches..."
-    echo "Fetching all remotes"
+    echo " > Fetching all remotes"
     git fetch  > /dev/null && git remote prune origin > /dev/null
     
     while read -r LOCAL
     do
-      echo "Analyzing ${LOCAL//* /}..."
-      if [[ -z $(git branch -r | grep "${LOCAL//* /}") ]]; then
+      REMOTE="${LOCAL//* /}"
+      echo " > Analyzing $REMOTE..."
+      if [[ "$REMOTE" == "master" ]]; then
+        echo "  > > Skipping 'master'"
+        continue
+      fi
+
+      if [[ -z $(git branch -r | grep "$REMOTE") ]]; then
         if [[ -n $(echo "$LOCAL" | grep "^\* ") ]]; then
           warn " Cannot delete the branch '${LOCAL//* /}' which you are currently on." 
         else

@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
 function usage {
-  echo "SYNOPSIS: $0 [options] Pull all repos"
+  echo "SYNOPSIS: $0 [options]"
+  echo "  Pull all repos"
   echo ""
   echo "  options:"
   echo "     -r <repofile|repodir>, --repository=<repofile|repodir> :"
@@ -22,6 +23,8 @@ source "$BASEPATH/.functions"
 
 get_additional_arg "--preserve-merges" "DO_PRESERVE_MERGE"
 get_additional_arg "--rebase" "DO_REBASE"
+
+loose_set_repo "${ARGS[@]}"
 
 for REPO in "${REPOS[@]}"
 do

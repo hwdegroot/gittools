@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
 function usage {
-  echo "SYNOPSIS: $0 [options] Reset all repos to HEAD"
+  echo "SYNOPSIS: $0 [options]"
+  echo "  Reset all repos to HEAD"
   echo ""
   echo "  options:"
   echo "     -r <repofile|repodir>, --repository=<repofile|repodir> :"
@@ -15,6 +16,8 @@ BASEPATH=$(dirname "$0")
 source "$BASEPATH/.functions"
 
 [[ ${#ARGS[@]} -eq 0 ]] &&  ARGS=("--hard")
+
+loose_set_repo "${ARGS[@]}"
 
 for REPO in "${REPOS[@]}"
 do

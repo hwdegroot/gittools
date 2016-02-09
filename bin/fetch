@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
 function usage {
-  echo "SYNOPSIS: $0 [options] Fetch all repos"
+  echo "SYNOPSIS: $0 [options]"
+  echo "  Fetch all repos"
   echo ""
   echo "  options:"
   echo "     -r <repofile|repodir>, --repository=<repofile|repodir> :"
@@ -13,6 +14,8 @@ function usage {
 
 BASEPATH=$(dirname "$0")
 source "$BASEPATH/.functions"
+
+loose_set_repo "${ARGS[@]}"
 
 for REPO in "${REPOS[@]}"
 do
