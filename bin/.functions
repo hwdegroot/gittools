@@ -57,7 +57,7 @@ function set_repos {
     REPOS=()
     while read line
     do
-      [[ -n ${line// /} ]] && REPOS+=($(cd $BASEDIR && cd $line && pwd))
+      [[ -n ${line// /} && ! -z "$(cd $BASEDIR && [[ -d "$line" ]] && echo "DIR_EXISTS")" ]] && REPOS+=($(cd $BASEDIR && cd $line && pwd))
     done < "$REPORC"
     return
   fi

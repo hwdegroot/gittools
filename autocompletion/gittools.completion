@@ -108,8 +108,10 @@ function get_repos {
   AUTOCOMPLETE=()
   if [[ -f  "$REPOFILE" ]]; then
     while IFS='' read -r repo || [[ -n "$repo" ]]; do
+      [[ -z "$(cd "$BASEDIR" && [[ -d "$repo" ]] && echo "DIR_EXISTS")" ]] && continue
+
       REPODIR="$(cd "$BASEDIR" && cd $repo && pwd)"
-      if [[ -d "$REPODIR/.git" ]]; then
+      if [[ -d "$REPODIR" && -d "$REPODIR/.git" ]]; then
         BRANCHES=( $(cd "$REPODIR" && list_branches) )
         AUTOCOMPLETE=( $(echo ${AUTOCOMPLETE[@]}) $(echo ${BRANCHES[@]}) )
       fi
