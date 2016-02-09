@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
 function usage {
-  echo "SYNOPSIS: $0 [options] Get HEAD info of all repos"
+  echo "SYNOPSIS: $0 [options]"
+  echo "  Get HEAD info of all repos"
   echo ""
   echo "  options:"
   echo "     -r <repofile|repodir>, --repository=<repofile|repodir> :"

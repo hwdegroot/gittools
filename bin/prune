@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
 function usage {
-  echo "SYNOPSIS: $0 [options] Prune all repos"
+  echo "SYNOPSIS: $0 [options]"
+  echo "  Prune all repos"
   echo ""
   echo "  options:"
   echo "     -r <repofile|repodir>, --repository=<repofile|repodir> :"

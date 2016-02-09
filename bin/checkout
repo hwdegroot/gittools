@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
 function usage {
-  echo "SYNOPSIS: $0 branch [options] Checkout a branch cross-repo"
+  echo "SYNOPSIS: $0 branch [options] "
+  echo "  Checkout a branch cross-repo"
   echo ""
   echo "  options:"
   echo "     -r <repofile|repodir>, --repository=<repofile|repodir> :"
