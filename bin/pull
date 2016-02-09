@@ -23,6 +23,8 @@ source "$BASEPATH/.functions"
 get_additional_arg "--preserve-merges" "DO_PRESERVE_MERGE"
 get_additional_arg "--rebase" "DO_REBASE"
 
+loose_set_repo "${ARGS[@]}"
+
 for REPO in "${REPOS[@]}"
 do
   (

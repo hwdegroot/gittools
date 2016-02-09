@@ -14,6 +14,8 @@ function usage {
 BASEPATH=$(dirname "$0")
 source "$BASEPATH/.functions"
 
+loose_set_repo "${ARGS[@]}"
+
 for REPO in "${REPOS[@]}"
 do
   (

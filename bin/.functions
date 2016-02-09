@@ -117,5 +117,12 @@ function warn {
   echo -e "\e[01;33m[WARNING @ $TIMESTAMP] $1\e[0m"
 }
 
+function loose_set_repo {
+  local args=("$@")
+  if [[ -n "$(get_repo "${args[@]}")" ]]; then
+    set_repos "$(get_repo "${args[@]}")"
+    ARGS=("${args[@]:1}")
+  fi
+}
 
 set_defaults $*

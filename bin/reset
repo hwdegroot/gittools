@@ -16,6 +16,8 @@ source "$BASEPATH/.functions"
 
 [[ ${#ARGS[@]} -eq 0 ]] &&  ARGS=("--hard")
 
+loose_set_repo "${ARGS[@]}"
+
 for REPO in "${REPOS[@]}"
 do
   (

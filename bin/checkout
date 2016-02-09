@@ -37,10 +37,7 @@ if [[ -z "$BRANCH" ]]; then
   exit 1
 fi
 
-if [[ -n "$(get_repo "${ARGS[@]}")" ]]; then
-  set_repos "$(get_repo "${ARGS[@]}")"
-  ARGS=("${ARGS[@]:1}")
-fi
+loose_set_repo "${ARGS[@]}"
 
 for REPO in "${REPOS[@]}"
 do
