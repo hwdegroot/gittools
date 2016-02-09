@@ -34,7 +34,10 @@ Currently available for (a subset of)
 
 To have autocompletion
 
-    $ [sudo] cp <gittools dir>/autocompletion/* /etc/bash_completion.d/
+    $ [sudo] cp <gittools dir>/autocompletion/gittools.completion /etc/bash_completion.d/
+
+or 
+	$ [sudo] ln -s <gittools dir>/autocompletion/gittools.completion /etc/bash_completion.d/gittools.completion
 
 And make sure autocompletion is enabled in `~/.bashrc`. Look for the lines:
 
