@@ -71,4 +71,22 @@ Set the following
 
 `$DEFAULT_BRANCH=branch_name`: Checkout this branch if gcheckout is called without a branch (usually this will be `master`)
 
+## Contributing
+
+* Fork repo
+* Ninja some code
+* Pull request
+* Wait
+* Profit
+
+To add any commands you can start from the `template/template.sh`
+For autocompletion add 
+
+    complete -o nospace -F _gdefault gmyawesomecommand
+
+to `autocompletion/gittools.autocompletion`
+
+or create a new function there if more than default autocompletion wanted
+
+
 __NOTE__: if you are using `.reporc` files, make sure the repository directories are relative to the file, or just abs paths.
