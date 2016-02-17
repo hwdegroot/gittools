@@ -29,7 +29,8 @@ do
     BASENAME=$(basename $(pwd))
     info "[$BASENAME] Cleaning local branches..."
     echo " > Fetching all remotes"
-    git fetch  > /dev/null && git remote prune origin > /dev/null
+    git fetch > /dev/null
+    git remote prune origin > /dev/null
     
     while read -r LOCAL
     do
