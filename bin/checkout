@@ -56,7 +56,7 @@ do
       git fetch
     fi
 
-    if [[ ! -z "$(git branch -r | grep "$BRANCH")" ]]; then 
+    if [[ -n "$(git branch -r | grep "$BRANCH")" ]] || [[ -n "$(git tag --list | grep "$BRANCH")" ]]; then 
       info "[$BASENAME] Checking out '$BRANCH'..."
       git checkout ${ARGS[@]} $BRANCH
     else

@@ -94,7 +94,10 @@ function list_directories {
 }
 
 function list_branches {
-  git branch --list --all --no-column | sed -e 's/[\* ]//g;s/remotes\/origin\///g;s/HEAD->//g' | sort | uniq | xargs echo
+  RESULTS=()
+  RESULTS+=($(git branch --list --all --no-column | sed -e 's/[\* ]//g;s/remotes\/origin\///g;s/HEAD->//g' | sort | uniq | xargs echo))
+  RESULTS+=($(git tag --list --no-column | sort | uniq | xargs echo))
+  echo "${RESULTS[@]}"
 }
 
 function get_repos {
