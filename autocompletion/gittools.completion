@@ -98,6 +98,10 @@ _gpull() {
     __DEFAULT "--help --repository --branch --preserve-merges --rebase"
 }
 
+_gcleanbranches() {
+    __DEFAULT "--help --repository --branch --force-delete"
+}
+
 function list_directories {
     k=0
     for WORD in $( compgen -f "${cur//--repository=}" ); do # loop trough the possible completions
@@ -139,7 +143,7 @@ function get_repos {
 } 
 
 complete -o nospace -F _gcheckout gcheckout
-complete -o nospace -F _gdefault gclean-branches
+complete -o nospace -F _gcleanbranches gclean-branches
 complete -o nospace -F _gdefault gdiff
 complete -o nospace -F _gdefault gfetch
 complete -o nospace -F _gdefault ginfo
