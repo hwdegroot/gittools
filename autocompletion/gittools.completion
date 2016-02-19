@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 __DEFAULT() {
   local cur prev opts
   COMPREPLY=()
@@ -31,7 +33,9 @@ _gcheckout()
     cur="${COMP_WORDS[COMP_CWORD]}"
     prev="${COMP_WORDS[COMP_CWORD-1]}"
     opts=("--help" "--repository" "--branch" "--pre-fetch" "--post-pull" "--prune-remote")
+    ARGS="${COMP_WORDS[@]:1}"
 
+    # Autocomplet specifiers
     if [[ ${cur} == -* ]] ; then
       OPTIONS=()
       for OPT in ${opts[@]}; do
@@ -49,12 +53,20 @@ _gcheckout()
       list_directories
       return 0
     fi
-    if [[ ! -z "$(echo "${COMP_WORDS[@]}" | grep -Po '(?<=repository).*')" ]] || [[ ! -z "$(echo "${COMP_WORDS[@]}" | grep -o '\-r=\?')" ]]; then 
+
+    # If the first argument is a directory, try to autocomplete branches, if git repo
+    if [[ ${#ARGS[@]} == 1 ]] && [[ -d "${prev}" ]] && [[ "$(cd "${prev}" && [[ -d ".git" ]] && echo 1)" == "1" ]]; then
+      COMPREPLY=( $(compgen -W "$(cd "$(pwd)/${prev}" && list_branches)" -- ${cur}) )
+      return 0
+    fi
+
+    # Try to autocomplete based on repository specifier
+    if [[ ! -z "$(echo "${COMP_WORDS[@]}" | grep -Po '(?<=repository).*')" ]] || [[ ! -z "$(echo "${COMP_WORDS[@]}" | grep -o '\-r=\?')" ]]; then
 
       ARGS=($(echo "${COMP_WORDS[@]}" | grep -Po '(?<=repository).*' || echo "${COMP_WORDS[@]}" | grep -Po '(?<= -r).*'))
       [[ ${#ARGS[@]} -gt 1 &&  "${ARGS[0]}" == "=" ]] && ARGS=("${ARGS[@]:1:1}")
 
-      if [[ ${#ARGS[@]} -gt 0 && -d "${ARGS[0]}" && "$(cd "${ARGS[0]}" && [[ -d ".git" ]] && echo 1)" == "1" ]]; then 
+      if [[ ${#ARGS[@]} -gt 0 && -d "${ARGS[0]}" && "$(cd "${ARGS[0]}" && [[ -d ".git" ]] && echo 1)" == "1" ]]; then
         COMPREPLY=( $(compgen -W "$(cd "$(pwd)/${ARGS[0]}" && list_branches)" -- ${cur}) )
         return 0
       fi
@@ -67,7 +79,8 @@ _gcheckout()
       return 0
     fi
     
-    if [[ ${prev} == "gcheckout" ]] || [[ " ${COMP_WORDS[@]} " != " --repository"* && ${prev} == "--branch" || ${cur} == "--branch=*" ]]; then
+    # Autocomplete branch
+    if [[ ${#ARGS[@]} == 1 ]] || [[ " ${COMP_WORDS[@]} " != " --repository"* && ${prev} == "--branch" || ${cur} == "--branch=*" ]]; then
       COMPREPLY=( $(compgen -W "$(get_repos)" -- ${cur//"--branch="}) )
       return 0
     fi
