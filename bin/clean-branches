@@ -8,6 +8,9 @@ function usage {
   echo "     -r <repofile|repodir>, --repository=<repofile|repodir> :"
   echo "       A file with all repos relative to script"
   echo "       defaults to \$DEVTOOLDIR/.reporc"
+  echo ""
+  echo "     --force-delete, -f:"
+  echo "       Force delete branches"
 
   exit 1
 }
@@ -15,6 +18,9 @@ function usage {
 BASEPATH=$(dirname "$0")
 source "$BASEPATH/.functions"
 
+
+get_additional_arg "--force-delete" "FORCE"
+get_additional_arg "-f" "FORCE"
 loose_set_repo "${ARGS[@]}"
 
 for REPO in "${REPOS[@]}"
@@ -45,7 +51,10 @@ do
         if [[ -n $(echo "$LOCAL" | grep "^\* ") ]]; then
           warn " Cannot delete the branch '${LOCAL//* /}' which you are currently on." 
         else
-          git branch -d "$LOCAL"
+          if [[ "$FORCE" -eq "1" ]]; then 
+            FORCE_DELETE="--force"
+          fi
+          git branch --delete $FORCE_DELETE "$LOCAL"
         fi
       fi
     done < <(git branch);
