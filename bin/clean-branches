@@ -9,7 +9,7 @@ function usage {
   echo "       A file with all repos relative to script"
   echo "       defaults to \$DEVTOOLDIR/.reporc"
   echo ""
-  echo "     --force-delete, -f:"
+  echo "     --force-delete"
   echo "       Force delete branches"
 
   exit 1
@@ -20,7 +20,6 @@ source "$BASEPATH/.functions"
 
 
 get_additional_arg "--force-delete" "FORCE"
-get_additional_arg "-f" "FORCE"
 loose_set_repo "${ARGS[@]}"
 
 for REPO in "${REPOS[@]}"
