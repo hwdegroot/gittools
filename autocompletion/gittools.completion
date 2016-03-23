@@ -55,7 +55,7 @@ _gcheckout()
     fi
 
     # If the first argument is a directory, try to autocomplete branches, if git repo
-    if [[ ${#ARGS[@]} == 1 ]] && [[ -d "${prev}" ]] && [[ "$(cd "${prev}" && [[ ! -z "`git rev-parse --is-inside-work-tree 2>/dev/null)`" ]] && echo 1)" == "1" ]]; then
+    if [[ ${#ARGS[@]} == 1 ]] && [[ -d "${prev}" ]] && [[ "$(cd "${prev}" && [[ ! -z "`git rev-parse --is-inside-work-tree 2>/dev/null`" ]] && echo 1)" == "1" ]]; then
       COMPREPLY=( $(compgen -W "$(cd "$(pwd)/${prev}" && list_branches)" -- ${cur}) )
       return 0
     fi
@@ -66,7 +66,7 @@ _gcheckout()
       ARGS=($(echo "${COMP_WORDS[@]}" | grep -Po '(?<=repository).*' || echo "${COMP_WORDS[@]}" | grep -Po '(?<= -r).*'))
       [[ ${#ARGS[@]} -gt 1 &&  "${ARGS[0]}" == "=" ]] && ARGS=("${ARGS[@]:1:1}")
 
-      if [[ ${#ARGS[@]} -gt 0 && -d "${ARGS[0]}" && "$(cd "${ARGS[0]}" && [[ ! -z "`git rev-parse --is-inside-work-tree 2>/dev/null)`" ]] && echo 1)" == "1" ]]; then
+      if [[ ${#ARGS[@]} -gt 0 && -d "${ARGS[0]}" && "$(cd "${ARGS[0]}" && [[ ! -z "`git rev-parse --is-inside-work-tree 2>/dev/null`" ]] && echo 1)" == "1" ]]; then
         COMPREPLY=( $(compgen -W "$(cd "$(pwd)/${ARGS[0]}" && list_branches)" -- ${cur}) )
         return 0
       fi
