@@ -23,9 +23,11 @@ do
     [[ -z "${REPO// /}" ]] && continue
     
     REPODIR=$(expand_path "$REPO")
-    [[ ! -d "$REPODIR" || ! -d "$REPODIR/.git" ]] && >&2 echo "$REPODIR is not a valid git repository" && continue
+    [[ ! -d "$REPODIR" ]] && continue
 
     cd "$REPODIR"
+    git rev-parse --is-inside-work-tree 2>/dev/null || continue
+  
     BASENAME=$(basename $(pwd))
     info "[$BASENAME] Getting info..."
     echo "HEAD currently @ $(git rev-parse --abbrev-ref HEAD ${ARGS[@]})"
