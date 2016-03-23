@@ -65,7 +65,7 @@ function set_repos {
   [[ ! -d  "$REPORC" ]] && >&2 echo "Unable to locate repository file" && exit 1
   
   REPO_PATH=$(expand_path "$REPORC")
-  if [[ -d "$REPO_PATH" ]] && [[ -d "$REPO_PATH/.git" ]]; then
+  if [[ -d "$REPO_PATH" ]] && [[ ! -z "$(cd $REPO_PATH && git rev-parse --is-inside-work-tree 2>/dev/null)" ]]; then
     REPOS=("$REPORC")
     BASEDIR=$CURR_DIR
     return
