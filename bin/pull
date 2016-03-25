@@ -35,7 +35,7 @@ do
     [[ ! -d "$REPODIR" ]] && continue
 
     cd "$REPODIR"
-    git rev-parse --is-inside-work-tree 2>/dev/null || continue
+    git rev-parse --is-inside-work-tree 2>&1>/dev/null || continue
   
     BASENAME=$(basename $(pwd))
     if [[ "${DO_REBASE:-"$DO_PRESERVE_MERGE"}" -eq "1" ]]; then
