@@ -8,7 +8,7 @@ function parse_args {
     DO_SHIFT=1
 
     IFS='=' read -ra OPT <<< "$OPTION"
-    
+
     if [[ "${#OPT[*]}" == "2" ]]; then
       DO_SHIFT=0
       OPTARG="${OPT[1],,}"
@@ -98,23 +98,23 @@ function get_repo {
 }
 
 function error {
-  TIMESTAMP=$(date +%H:%M)
-  echo -e "\e[01;31m[ERROR @ $TIMESTAMP] $1\e[0m"
+  TS=$(date +%H:%M)
+  echo -e " $TS \e[01;31mERROR: $1\e[0m"
 }
 
 function info {
-  TIMESTAMP=$(date +%H:%M)
-  echo -e "\e[01;32m[INFO @ $TIMESTAMP] $1\e[0m"
+  TS=$(date +%H:%M)
+  echo -e " $TS \e[01;94mINFO:\e[0m $1"
 }
 
 function success {
-  TIMESTAMP=$(date +%H:%M)
-  echo -e "\e[01;32m[SUCCESS @ $TIMESTAMP] $1\e[0m"
+  TS=$(date +%H:%M)
+  echo -e " $TS \e[01;32mSUCCESS\e[0m $1"
 }
 
 function warn {
-  TIMESTAMP=$(date +%H:%M)
-  echo -e "\e[01;33m[WARNING @ $TIMESTAMP] $1\e[0m"
+  TS=$(date +%H:%M)
+  echo -e " $TS \e[01;33mWARNING\e[0m $1"
 }
 
 function loose_set_repo {
