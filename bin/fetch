@@ -30,7 +30,7 @@ do
 
     BASENAME=$(basename $(pwd))
     info "[$BASENAME] Fetching..."
-    git fetch ${ARGS[@]} 2>&1 | error
+    (git fetch ${ARGS[@]} 3>&1 1>&2- 2>&3-) | error
     cd "$CURR_DIR"
   )
 done

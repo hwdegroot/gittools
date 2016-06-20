@@ -54,25 +54,25 @@ do
     
     if [[ "${DO_FETCH:-"$PRE_FETCH"}" -eq "1" ]]; then
       info "[$BASENAME] fetching remote..."
-      git fetch 2>&1 | error
+      (git fetch 3>&1 1>&2- 2>&3-) | error
     fi
 
     if [[ -n "$(git branch -r | grep "$BRANCH")" ]] || [[ -n "$(git tag --list | grep "$BRANCH")" ]]; then 
       info "[$BASENAME] Checking out '$BRANCH'..."
-      git checkout ${ARGS[@]} $BRANCH 2>&1 | error
+      (git checkout ${ARGS[@]} $BRANCH 3>&1 1>&2- 2>&3-) | error
     else
       warn "[$BASENAME] Branch '$BRANCH' not found, checking out master..."
-      git checkout ${ARGS[@]} master 2>&1 | error
+      (git checkout ${ARGS[@]} master 3>&1 1>&2- 2>&3-) | error
     fi
 
     if [[ "${DO_PULL:-"$POST_PULL"}" -eq "1" ]]; then
       info "[$BASENAME] pulling remote for changes..."
-      git pull 2>&1 | error
+      (git pull 3>&1 1>&2- 2>&3-) | error
     fi
 
     if [[ "${DO_PRUNE:-"$PRUNE_REMOTE"}" -eq "1" ]]; then
       info "[$BASENAME] pruning remote origin..."
-      git remote prune origin 2>&1 | error
+      (git remote prune origin 3>&1 1>&2- 2>&3-) | error
     fi
     
     cd "$CURR_DIR"

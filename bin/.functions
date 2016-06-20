@@ -98,33 +98,45 @@ function get_repo {
 }
 
 function error {
-  if [[ -z "$1" ]]; then
+  if [[ -n "$1" ]]; then
+    VAL="$1"
+  else
     read VAL
   fi
+  [[ -z $VAL ]] && return
   TS=$(date +%H:%M)
   echo -e " $TS \e[01;31mERROR: ${VAL}\e[0m"
 }
 
 function info {
-  if [[ -z "$1" ]]; then
+  if [[ -n "$1" ]]; then
+    VAL="$1"
+  else
     read VAL
   fi
+  [[ -z $VAL ]] && return
   TS=$(date +%H:%M)
   echo -e " $TS \e[01;94mINFO:\e[0m ${VAL}"
 }
 
 function success {
-  if [[ -z "$1" ]]; then
+  if [[ -n "$1" ]]; then
+    VAL="$1"
+  else
     read VAL
   fi
+  [[ -z $VAL ]] && return
   TS=$(date +%H:%M)
   echo -e " $TS \e[01;32mSUCCESS\e[0m ${VAL}"
 }
 
 function warn {
-  if [[ -z "$1" ]]; then
+  if [[ -n "$1" ]]; then
+    VAL="$1"
+  else
     read VAL
   fi
+  [[ -z $VAL ]] && return
   TS=$(date +%H:%M)
   echo -e " $TS \e[01;33mWARNING\e[0m ${VAL}"
 }

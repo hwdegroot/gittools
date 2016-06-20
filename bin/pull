@@ -40,17 +40,17 @@ do
     BASENAME=$(basename $(pwd))
     if [[ "${DO_REBASE:-"$DO_PRESERVE_MERGE"}" -eq "1" ]]; then
       info "[$BASENAME] Fetching changes from remote..."
-      git fetch 2>&1 | error
+      (git fetch 3>&1 1>&2- 2>&3-) | warn
       ARGV=()
       [[ "$DO_PRESERVE_MERGE" -eq "1" ]] && ARGV+=("--preserve-merges")
       ARGV+=(${ARGS[*]})
 
       info "[$BASENAME] Rebasing local changes on top..."
-      git rebase ${ARGV[@]} 2>&1 | error
+      (git rebase ${ARGV[@]} 3>&1 1>&2- 2>&3-) | warn
 
     else
       info "[$BASENAME] Pulling changes from remote..."
-      git pull ${ARGS[@]} 2>&1 | error
+      (git pull ${ARGS[@]} 3>&1 1>&2- 2>&3-) | warn
     fi
     cd "$CURR_DIR"
   )

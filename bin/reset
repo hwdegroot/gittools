@@ -32,7 +32,7 @@ do
 
     BASENAME=$(basename $(pwd))
     info "[$BASENAME] Resetting..."
-    git reset ${ARGS[@]} 2>&1 | error
+    (git reset ${ARGS[@]} 3>&1 1>&2- 2>&3-) | error
     cd "$CURR_DIR"
   )
 done
