@@ -32,12 +32,12 @@ do
 
     cd "$REPODIR"
     git rev-parse --is-inside-work-tree 2>&1>/dev/null || continue
-    
+
     BASENAME=$(basename $(pwd))
     info "[$BASENAME] Cleaning local branches..."
     echo " > Fetching all remotes"
-    git fetch > /dev/null
-    git remote prune origin > /dev/null
+    git fetch --quiet 2>&1 | error
+    git remote prune origin 2>&1 | error
     
     while read -r LOCAL
     do
@@ -55,7 +55,7 @@ do
           if [[ "$FORCE" -eq "1" ]]; then 
             FORCE_DELETE="--force"
           fi
-          git branch --delete $FORCE_DELETE "$LOCAL"
+          git branch --delete $FORCE_DELETE "$LOCAL" 2>&1 | error
         fi
       fi
     done < <(git branch);

@@ -30,7 +30,7 @@ do
 
     BASENAME=$(basename $(pwd))
     info "[$BASENAME] Getting status..."
-    git status ${ARGS[@]}
+    git status ${ARGS[@]} 2>&1 | error
     cd "$CURR_DIR"
   )
 done

@@ -50,7 +50,7 @@ function set_repos {
   REPORC=${REPORC:-"$GITTOOLS/.reporc"}
   CURR_DIR=$(pwd)
   BASEDIR=$CURR_DIR
-  
+
   if [[ -f "$REPORC" ]]; then 
     BASEDIR=$(dirname "$REPORC")
     # readfile
@@ -63,7 +63,7 @@ function set_repos {
   fi
 
   [[ ! -d  "$REPORC" ]] && >&2 echo "Unable to locate repository file" && exit 1
-  
+
   REPO_PATH=$(expand_path "$REPORC")
   if [[ -d "$REPO_PATH" ]] && [[ ! -z "$(cd $REPO_PATH && git rev-parse --is-inside-work-tree 2>/dev/null)" ]]; then
     REPOS=("$REPORC")
@@ -98,23 +98,35 @@ function get_repo {
 }
 
 function error {
+  if [[ -z "$1" ]]; then
+    read VAL
+  fi
   TS=$(date +%H:%M)
-  echo -e " $TS \e[01;31mERROR: $1\e[0m"
+  echo -e " $TS \e[01;31mERROR: ${VAL}\e[0m"
 }
 
 function info {
+  if [[ -z "$1" ]]; then
+    read VAL
+  fi
   TS=$(date +%H:%M)
-  echo -e " $TS \e[01;94mINFO:\e[0m $1"
+  echo -e " $TS \e[01;94mINFO:\e[0m ${VAL}"
 }
 
 function success {
+  if [[ -z "$1" ]]; then
+    read VAL
+  fi
   TS=$(date +%H:%M)
-  echo -e " $TS \e[01;32mSUCCESS\e[0m $1"
+  echo -e " $TS \e[01;32mSUCCESS\e[0m ${VAL}"
 }
 
 function warn {
+  if [[ -z "$1" ]]; then
+    read VAL
+  fi
   TS=$(date +%H:%M)
-  echo -e " $TS \e[01;33mWARNING\e[0m $1"
+  echo -e " $TS \e[01;33mWARNING\e[0m ${VAL}"
 }
 
 function loose_set_repo {

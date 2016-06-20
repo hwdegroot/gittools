@@ -27,10 +27,10 @@ do
 
     cd "$REPODIR"
     git rev-parse --is-inside-work-tree 2>&1>/dev/null || continue
-  
+
     BASENAME=$(basename $(pwd))
     info "[$BASENAME] Fetching..."
-    git fetch ${ARGS[@]}
+    git fetch ${ARGS[@]} 2>&1 | error
     cd "$CURR_DIR"
   )
 done
