@@ -26,7 +26,7 @@ for REPO in "${REPOS[@]}"
 do
   (
     [[ -z "${REPO// /}" ]] && continue
-    
+
     REPODIR=$(expand_path "$REPO")
     [[ ! -d "$REPODIR" ]] && continue
 
@@ -38,7 +38,7 @@ do
     echo " > Fetching all remotes"
     (git fetch --quiet 3>&1 1>&2- 2>&3-) | error
     (git remote prune origin 3>&1 1>&2- 2>&3-) | error
-    
+
     while read -r LOCAL
     do
       REMOTE="${LOCAL//* /}"
@@ -49,13 +49,14 @@ do
       fi
 
       if [[ -z $(git branch -r | grep "$REMOTE") ]]; then
+        delete="-d"
         if [[ -n $(echo "$LOCAL" | grep "^\* ") ]]; then
           warn " Cannot delete the branch '${LOCAL//* /}' which you are currently on." 
         else
           if [[ "$FORCE" -eq "1" ]]; then 
-            FORCE_DELETE="--force"
+            delete="-D"
           fi
-          (git branch --delete $FORCE_DELETE "$LOCAL" 3>&1 1>&2- 2>&3-) | error
+          (git branch $delete "$LOCAL" 3>&1 1>&2- 2>&3-) | error
         fi
       fi
     done < <(git branch);
